@@ -1,0 +1,21 @@
+<!-- add a new group  -->
+
+{% extends "groups/group_base.html" %}
+{% load bootstrap4 %}
+
+{% block group_content %}
+<div class="container">
+
+  <div class="col-md-8">
+    <h4>创建一个新的VN讨论组：</h4>
+    <form method="POST" action="{% url 'groups:create' %}" id="groupForm">
+      {% csrf_token %}
+      {% bootstrap_form form %}
+      {% buttons %}
+        <button type="submit" class="btn btn-primary btn-large">创建</button>
+      {% endbuttons %}
+    </form>
+  </div>
+
+</div>
+{% endblock %}

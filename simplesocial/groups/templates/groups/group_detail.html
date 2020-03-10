@@ -1,0 +1,44 @@
+  {% extends "groups/group_base.html" %}
+
+{% block pregroup %}
+<div class="container">
+  <h2 class="display-3">{{group.name}}</h2>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="alert alert-primary">
+            讨论组成员数量：{{group.members.count}}
+        </div>
+      </div>
+      <div class="content col-md-4">
+        {% if user in group.members.all %}
+          <a href="{% url 'groups:leave' slug=group.slug %}" class="btn btn-lg btn-warning"><span class="fa fa-times-circle-o"></span> 退出</a>
+        {% else %}
+          <a href="{% url 'groups:join' slug=group.slug %}" class="btn btn-lg btn-warning"><span class="fa fa-check-circle-o"></span> 加入</a>
+        {% endif %}
+      </div>
+      <div class="col-md-4">
+          <a href="{% url 'posts:create' %}" class="btn btn-lg btn-secondary ">发帖</a>
+      </div>
+    </div>
+
+</div>
+{% endblock %}
+
+<div class="container">
+  {% block group_content %}
+  <div class="col-md-8">
+  	{% if group.posts.count == 0 %}
+    <div class="alert alert-info">
+        这个讨论组目前还没有帖子。
+    </div>
+
+  	{% else %}
+
+  		{% for post in group.posts.all %}
+  			{% include "posts/_post.html" %}
+  		{% endfor %}
+
+  	{% endif %}
+  </div>
+  {% endblock %}
+</div>

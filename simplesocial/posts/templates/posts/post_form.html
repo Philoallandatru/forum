@@ -1,0 +1,14 @@
+{% extends "posts/post_base.html" %}
+
+{% load bootstrap4 %}
+
+{% block post_content %}
+<h4>创建新的评论</h4>
+<form method="POST" action="{% url 'posts:create' %}" id="postForm">
+	{% csrf_token %}
+	{% bootstrap_form form %}
+	{% buttons %}
+		<button type="submit" class="btn btn-primary btn-large">发表</button>
+	{% endbuttons %}
+</form>
+{% endblock %}

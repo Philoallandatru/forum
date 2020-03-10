@@ -1,0 +1,46 @@
+{% extends "groups/group_base.html" %}
+
+{% block pregroup %}
+<div class="col-md-4">
+	<div class="content">
+		{% if user.is_authenticated %}
+		<h2>
+			欢迎回来。
+			<a href="{% url 'posts:for_user' username=user.username %}">@{{user.username }}</a>
+		</h2>
+
+    {% endif %}
+			<h2>讨论组</h2>
+
+			<p>欢迎来到讨论组页面 <br>选择你感兴趣的VN一起来讨论吧！</p>
+	</div>
+	{% if user.is_authenticated %}
+	<a href="{% url 'groups:create' %}" class="btn btn-warning" role="button"><span class="fa fa-plus"></span> 创建新的讨论组</a>
+	{% endif %}
+</div>
+{% endblock %}
+
+{% block group_content %}
+<div class="col-md-8">
+	<div class="list-group">
+		{% for group in object_list %}
+
+		{# group detail page link #}
+		<a href="{% url 'groups:single' slug=group.slug %}"
+		class="list-group-item list-group-item-action flex-column align-items-start">
+
+			<h3 class="mb-1">{{ group.name }}</h3>
+			<p class="mb-1">{{ group.description_html|safe }}</p>
+			<div class="d-flex w-40 justify-content-between">
+				<small class="text-muted"><span class="badge badge-secondary">
+					{{ group.members.count }}</span> member{{ group.members.count|pluralize }}</small>
+				<small class="text-muted"><span class="badge badge-secondary">
+					{{ group.posts.count }}</span> post{{ group.posts.count|pluralize }}</small>
+			<span></span><span></span>
+			</div>
+		</a>
+
+		{% endfor %}
+	</div>
+</div>
+{% endblock %}
