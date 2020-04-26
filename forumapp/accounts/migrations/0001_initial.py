@@ -25,6 +25,7 @@ class Migration(migrations.Migration):
                 'verbose_name': 'user',
                 'verbose_name_plural': 'users',
                 'abstract': False,
+                'managed' : True,
             },
             bases=('auth.user', models.Model),
             managers=[

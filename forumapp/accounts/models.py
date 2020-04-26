@@ -4,7 +4,7 @@ from django.utils import timezone
 
 # Create your models here.
 class User(auth.models.User, auth.models.PermissionsMixin):
-    # signature = models.CharField(max_length=255, blank=True, null=True)
+    signature = models.CharField(max_length=255, blank=True, null=True)
 
     def __str__(self):
         return "@{}".format(self.username)
