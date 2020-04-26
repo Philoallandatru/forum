@@ -10,8 +10,7 @@ from braces.views import SelectRelatedMixin
 from . import forms
 from . import models
 
-from django.contrib.auth import get_user_model
-User = get_user_model()
+from accounts.models import MyUser
 
 
 class PostList(SelectRelatedMixin, generic.ListView):
@@ -25,7 +24,7 @@ class UserPosts(generic.ListView):
 
     def get_queryset(self):
         try:
-            self.post_user = User.objects.prefetch_related("posts").get(
+            self.post_user = MyUser.objects.prefetch_related("posts").get(
                 username__iexact=self.kwargs.get("username")
             )
         except User.DoesNotExist:
