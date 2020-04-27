@@ -3,7 +3,7 @@
 {% load bootstrap4 %}
 
 {% block post_content %}
-<h4>创建新的评论</h4>
+<h4>创建新的帖子</h4>
 <form method="POST" action="{% url 'posts:create' %}" id="postForm">
 	{% csrf_token %}
 	{% bootstrap_form form %}

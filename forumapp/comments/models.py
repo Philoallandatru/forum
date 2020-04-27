@@ -1,8 +1,10 @@
 from posts.models import Post
 from django.db import models
+from django.urls import reverse
 from django.core.exceptions import ValidationError
 from django.contrib.auth import get_user_model
 User = get_user_model()
+
 
 # Create your models here.
 
@@ -20,4 +22,8 @@ class Comment(models.Model):
 
     def __str__(self):
         return "<" + self.content + "> to (" + self.post.message + ") by [" + self.user.username + "]"
+
+    def get_absolute_url(self):
+        return reverse("comments:comment_detail", kwargs={"pk": self.pk})
+    
 
