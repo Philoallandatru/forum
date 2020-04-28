@@ -11,9 +11,17 @@
       </div>
       <div class="content col-md-4">
         {% if user in group.members.all %}
-          <a href="{% url 'groups:leave' slug=group.slug %}" class="btn btn-lg btn-warning"><span class="fa fa-times-circle-o"></span> 退出</a>
+
+          <a href="{% url 'groups:leave' slug=group.slug %}" class="btn btn-lg btn-warning">
+          <span class="fa fa-times-circle-o">
+          </span> 退出
+          </a>
+
         {% else %}
-          <a href="{% url 'groups:join' slug=group.slug %}" class="btn btn-lg btn-warning"><span class="fa fa-check-circle-o"></span> 加入</a>
+          <a href="{% url 'groups:join' slug=group.slug %}" class="btn btn-lg btn-warning">
+          <span class="fa fa-check-circle-o">
+          </span> 加入
+          </a>
         {% endif %}
       </div>
       <div class="col-md-4">

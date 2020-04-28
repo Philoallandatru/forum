@@ -1,8 +1,177 @@
 {% extends "posts/post_base.html" %}
 
-{% block post_content %}
-<!-- <div class="col-md-8"> -->
-    {% include "posts/_post.html" %}
-<!-- </div> -->
-{% endblock %}
+{% load static %}
+{% comment %} 
+<div class="container">
 
+    {% block post_content %}
+
+    {% include "posts/_post.html" %}
+
+    <div class="col-md-8">
+        {% if post.comments.count == 0 %}
+
+        <div class="alert alert-info">
+            这个帖子还没有回复
+        </div>
+
+        {% else %}
+
+        {% for comment in post.comments.all %}
+        {% include "comments/_comment.html" %}
+        {% endfor %}
+
+        {% endif %}
+    </div>
+
+    {% endblock post_content %}
+
+</div> {% endcomment %}
+
+
+
+{% block  left_content %}
+<div class="panel panel-default">
+    <!-- Default panel contents -->
+    <div class="panel-body">
+        <ol class="breadcrumb">
+            <li><a href="/">主页</a></li>
+            <li><a href="/n/1/">{{ post.group.name }}</a></li>
+            {% comment %} <li class="active">{{ title }}</li>  {% endcomment %}
+        </ol>
+        <h1 class="topic-title">{{ title }}</h1>
+        <div class="topic-meta row">
+            <div class="col-xs-2 col-sm-1">
+                <img class="user-avatar" src="{% static  'img/4.jpg' %}" alt="" />
+            </div>
+            <div class="col-xs-9 col-sm-10">
+                <p class="text-muted">
+                    <a href="/u/1/">{{ name }}</a>
+                    <br />
+                    <span>发表于{{ post.create_at }} 主题：<a class="text-primary" href="/n/1/">{{ post.group.name }}</a>, </span>
+                    <!--span>阅读次数  366</span-->
+                </p>
+            </div>
+        </div>
+
+        <div class="topic-content">
+
+
+            {{ post.message|safe }}
+
+
+
+        </div>
+    </div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+
+        共{{ post.comments.count }}条回复
+
+    </div>
+    <!-- List group -->
+    <ul class="list-group reply-list">
+
+
+
+        {% for  comment in post.comments.all %}
+
+        <li class="list-group-item reply-item">
+            <div class="topic-meta row">
+                <div class="col-xs-2 col-sm-1">
+                    <img class="user-avatar" src="{% static 'image/1.jpg' %}" alt="">
+                </div>
+                <div class="col-xs-9 col-sm-10">
+                    <p class="text-muted">
+                        <a href="/u/15/">{{ comment.user }}</a> <br>
+                        <span>{{ comment.date }}</span>
+                    </p>
+                </div>
+            </div>
+            <div class="reply-content">
+                <p>
+                </p>
+                <p>{{ comment.content|safe }}</p>
+
+                <p></p>
+            </div>
+            <p class="reply-link">
+                <a href="#" data-username="gladuo" class="reply-to">回复</a>
+            </p>
+
+        </li>
+        {% endfor %}
+
+
+
+
+
+
+
+    </ul>
+    <div class="panel-footer">
+
+
+    </div>
+</div>
+
+{% comment %} 
+<div class="panel panel-default">
+    <div class="panel-heading">留下一个评论</div>
+    <div class="panel-body">
+
+
+        {% if user.is_authenticated %}
+        <form action="{% url 'operation:comment_url'  content_id=content_topic.id %}" method="POST">
+
+            <form method="post">
+
+                {% csrf_token %}
+                <link href="{% static  'editor/demo.css' %}" type="text/css" media="all" rel="stylesheet" />
+
+
+
+                <link href="{% static  'editor/editor1.css' %}" type="text/css" media="all" rel="stylesheet" />
+                <script type="text/javascript" src="{% static  'editor/Markdown.Converter.js' %}"></script>
+                <script type="text/javascript" src="{% static  'editor/Markdown.Converter1.js' %}"></script>
+                <script type="text/javascript" src="{% static  'editor/Markdown.Sanitizer.js' %}"></script>
+                <script type="text/javascript" src="{% static   'editor/Markdown.Editor.js' %}"></script>
+                <script type="text/javascript" src="{% static  'editor/Markdown.Extra.js' %}"></script>
+                <script type="text/javascript" src="{% static  'editor/pagedown_init.js' %}"></script>
+                <div id="div_id_content_raw" class="form-group">
+                    <div class="controls ">
+                        <div class="wmd-wrapper" id="id_content_raw-wmd-wrapper">
+                            <div class="wmd-panel">
+                                <div id="id_content_raw_wmd_button_bar"></div> {{ forms.content_raw }}
+                            </div>
+                            <p class="wmd-preview-title"><small>Preview:</small></p>
+                            <div id="id_content_raw_wmd_preview" class="wmd-panel wmd-preview"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="controls "> <input type="submit" name="submit" value="Submit" class="btn btn-primary"
+                            id="submit-id-submit" /> </div>
+                </div>
+            </form>
+
+        </form>
+
+        {% else %}
+
+        <div class="alert alert-warning" role="alert">
+
+
+
+            请您<a href="{% url  'user:login' %}">登录</a> 或者 <a href="{% url  'user:register' %}">注册成为新用户</a> 进行回复
+
+        </div>
+        {% endif %}
+
+
+    </div>
+</div> {% endcomment %}
+
+
+{% endblock %}

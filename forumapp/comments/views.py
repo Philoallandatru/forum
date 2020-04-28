@@ -10,6 +10,11 @@ from braces.views import SelectRelatedMixin
 # Create your views here.
 User = get_user_model()
 
+class DeleteComment(LoginRequiredMixin, SelectRelatedMixin, generic.DeleteView):
+    model = Comment
+    select_related = ("user", "group")
+    success_url = reverse_lazy("posts:all")
+
 class CommentList(generic.ListView):
     model = Comment
     select_related = ("post")

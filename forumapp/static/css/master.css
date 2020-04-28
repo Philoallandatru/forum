@@ -3,12 +3,12 @@
  border: 10px solid red;
 }
 
-html,
+/* html,
 body {
   height: 100%;
   width: 100%;
   overflow: hidden;
-  background: #191063;
+  background: #01010c;
   margin: 0;
 }
 
@@ -23,4 +23,10 @@ body {
   text-align: center;
   user-select: none;
   font-family: Arial;
-}
+} */
+
+
+/* body {
+  background: #007bff;
+  background: linear-gradient(to right, #0062E6, #33AEFF);
+} */
