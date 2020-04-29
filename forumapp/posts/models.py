@@ -12,6 +12,7 @@ User = get_user_model()
 
 
 class Post(models.Model):
+    title = models.CharField(max_length=200, blank=True, null=True)
     user = models.ForeignKey(User, related_name="posts",on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now=True)
     message = models.TextField()

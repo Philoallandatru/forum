@@ -1,7 +1,8 @@
 {% extends "posts/post_base.html" %}
 
 {% load static %}
-{% comment %} 
+
+{% comment %}
 <div class="container">
 
     {% block post_content %}
@@ -34,32 +35,41 @@
 <div class="panel panel-default">
     <!-- Default panel contents -->
     <div class="panel-body">
-        <ol class="breadcrumb">
-            <li><a href="/">主页</a></li>
-            <li><a href="/n/1/">{{ post.group.name }}</a></li>
-            {% comment %} <li class="active">{{ title }}</li>  {% endcomment %}
-        </ol>
-        <h1 class="topic-title">{{ title }}</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">主页</a></li>
+
+                <li class="breadcrumb-item"><a
+                        href="{% url 'groups:single' slug=post.group.slug %}">{{ post.group.name }}
+                    </a></li>
+
+                {% comment %} <li class="breadcrumb-item active" aria-current="page">
+                    {{ post.title }}
+                </li> {% endcomment %}
+            </ol>
+        </nav>
+
+
+
+        <h1 class="topic-title">{{ post.title }}</h1>
         <div class="topic-meta row">
             <div class="col-xs-2 col-sm-1">
                 <img class="user-avatar" src="{% static  'img/4.jpg' %}" alt="" />
             </div>
             <div class="col-xs-9 col-sm-10">
                 <p class="text-muted">
-                    <a href="/u/1/">{{ name }}</a>
+                    <a href="/u/1/">{{ post.user.username }}</a>
                     <br />
-                    <span>发表于{{ post.create_at }} 主题：<a class="text-primary" href="/n/1/">{{ post.group.name }}</a>, </span>
-                    <!--span>阅读次数  366</span-->
+                    <span>发表于{{ post.created_at }} 主题：<a class="text-primary"
+                            href="{% url 'groups:single' slug=post.group.slug %}">{{ post.group.name }}
+                        </a>, </span>
                 </p>
             </div>
         </div>
 
         <div class="topic-content">
 
-
             {{ post.message|safe }}
-
-
 
         </div>
     </div>
@@ -74,7 +84,6 @@
     <ul class="list-group reply-list">
 
 
-
         {% for  comment in post.comments.all %}
 
         <li class="list-group-item reply-item">
@@ -84,7 +93,7 @@
                 </div>
                 <div class="col-xs-9 col-sm-10">
                     <p class="text-muted">
-                        <a href="/u/15/">{{ comment.user }}</a> <br>
+                        <a href="{% url 'comments:comment_detail' pk=comment.id %}">{{ comment.user }}</a> <br>
                         <span>{{ comment.date }}</span>
                     </p>
                 </div>
@@ -116,7 +125,7 @@
     </div>
 </div>
 
-{% comment %} 
+{% comment %}
 <div class="panel panel-default">
     <div class="panel-heading">留下一个评论</div>
     <div class="panel-body">
@@ -164,7 +173,7 @@
 
 
 
-            请您<a href="{% url  'user:login' %}">登录</a> 或者 <a href="{% url  'user:register' %}">注册成为新用户</a> 进行回复
+            请您<a href="{% url  'accounts:login' %}">登录</a> 或者 <a href="{% url  'accounts:signup' %}">注册成为新用户</a> 进行回复
 
         </div>
         {% endif %}
