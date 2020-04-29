@@ -24,7 +24,7 @@ class Comment(models.Model):
 
     def clean(self):
         if len(self.content) == 0:
-            raise ValidationError(_('评论内容不能为空'))
+            raise ValidationError('评论内容不能为空')
 
     def __str__(self):
         return "<" + self.content + "> to (" + self.post.message + ") by [" + self.user.username + "]"

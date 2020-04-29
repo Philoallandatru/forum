@@ -6,8 +6,20 @@ class CommentForm(forms.ModelForm):
         fields = ("content", "post")
         model = Comment
     
-    def __ini__(self,*args, **kwargs):
+    def __init__(self,*args, **kwargs):
         user = kwargs.pop("user", None)
         super().__init__(*args, **kwargs)
         # if user is not None:
         #     self.files[]
+
+# class CommentPostForm(forms.ModelForm):
+#     class Meta:
+#         fields = ("content", "post")
+#         model = Comment
+
+
+
+class  CommentPostForm(forms.Form):
+    content = forms.CharField(max_length=100)
+
+

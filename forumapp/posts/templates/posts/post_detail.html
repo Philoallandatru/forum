@@ -74,6 +74,9 @@
         </div>
     </div>
 </div>
+
+{% comment %} comments restored {% endcomment %}
+
 <div class="panel panel-default">
     <div class="panel-heading">
 
@@ -112,12 +115,6 @@
         </li>
         {% endfor %}
 
-
-
-
-
-
-
     </ul>
     <div class="panel-footer">
 
@@ -125,21 +122,23 @@
     </div>
 </div>
 
-{% comment %}
-<div class="panel panel-default">
+
+{% comment %} leave a comment {% endcomment %}
+
+ <div class="panel panel-default">
+
     <div class="panel-heading">留下一个评论</div>
+
     <div class="panel-body">
 
 
         {% if user.is_authenticated %}
-        <form action="{% url 'operation:comment_url'  content_id=content_topic.id %}" method="POST">
+        <form action="{% url 'comments:postComment'  pk=post.id username=user.username %}" method="POST">
 
-            <form method="post">
+            {% comment %} <form method="post"> {% endcomment %}
 
                 {% csrf_token %}
-                <link href="{% static  'editor/demo.css' %}" type="text/css" media="all" rel="stylesheet" />
-
-
+                {% comment %} <link href="{% static  'editor/demo.css' %}" type="text/css" media="all" rel="stylesheet" />
 
                 <link href="{% static  'editor/editor1.css' %}" type="text/css" media="all" rel="stylesheet" />
                 <script type="text/javascript" src="{% static  'editor/Markdown.Converter.js' %}"></script>
@@ -148,22 +147,33 @@
                 <script type="text/javascript" src="{% static   'editor/Markdown.Editor.js' %}"></script>
                 <script type="text/javascript" src="{% static  'editor/Markdown.Extra.js' %}"></script>
                 <script type="text/javascript" src="{% static  'editor/pagedown_init.js' %}"></script>
-                <div id="div_id_content_raw" class="form-group">
+                 {% endcomment %}
+                
+                {% comment %} <div id="div_id_content_raw" class="form-group">
                     <div class="controls ">
                         <div class="wmd-wrapper" id="id_content_raw-wmd-wrapper">
                             <div class="wmd-panel">
-                                <div id="id_content_raw_wmd_button_bar"></div> {{ forms.content_raw }}
+                                <div id="id_content_raw_wmd_button_bar"></div> {{ forms.content }}
                             </div>
                             <p class="wmd-preview-title"><small>Preview:</small></p>
                             <div id="id_content_raw_wmd_preview" class="wmd-panel wmd-preview"></div>
                         </div>
                     </div>
+                </div> {% endcomment %}
+                
+                <div class="form-group">
+                    <div class="controls "> 
+                     <label for="content">评论内容</label>
+    <input id="content" type="text" name="content" />
+                    </div>
                 </div>
+
+
                 <div class="form-group">
                     <div class="controls "> <input type="submit" name="submit" value="Submit" class="btn btn-primary"
                             id="submit-id-submit" /> </div>
                 </div>
-            </form>
+            {% comment %} </form> {% endcomment %}
 
         </form>
 
@@ -171,16 +181,54 @@
 
         <div class="alert alert-warning" role="alert">
 
-
-
             请您<a href="{% url  'accounts:login' %}">登录</a> 或者 <a href="{% url  'accounts:signup' %}">注册成为新用户</a> 进行回复
 
         </div>
         {% endif %}
 
 
+    </div>   
+
+</div>
+
+
+{% comment %} <div class="panel-heading">留下一个评论</div>
+
+<div class="panel-body">
+
+    {% if user.is_authenticated %}
+    <form action="{% url 'comments:postComment'  pk=post.id   %}" method="POST">
+
+        <div id="div_id_content_raw" class="form-group">
+            <div class="controls ">
+                <div class="wmd-wrapper" id="id_content_raw-wmd-wrapper">
+                    <div class="wmd-panel">
+                        <div id="id_content_raw_wmd_button_bar"></div> {{ forms.content }}
+                    </div>
+                    <p class="wmd-preview-title"><small>Preview:</small></p>
+                    <div id="id_content_raw_wmd_preview" class="wmd-panel wmd-preview"></div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="controls "> <input type="submit" name="submit" value="Submit" class="btn btn-primary"
+                    id="submit-id-submit" /> </div>
+        </div>
+
+    </form>
+
+    {% else %}
+
+    <div class="alert alert-warning" role="alert">
+
+        请您<a href="{% url  'accounts:login' %}">登录</a> 或者 <a href="{% url  'accounts:signup' %}">注册成为新用户</a> 进行回复
+
     </div>
-</div> {% endcomment %}
+    {% endif %}
+</div>
+</div>  {% endcomment %}
 
 
 {% endblock %}

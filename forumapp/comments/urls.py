@@ -8,4 +8,5 @@ urlpatterns = [
     path('delete/<int:pk>', views.CommentDetail),
     path('detail/<int:pk>', views.CommentDetail.as_view(), name="comment_detail"),
     path("new/", views.CreateComment.as_view(), name="create_comment"),
+    path("for/<username>/<int:pk>/", views.CommentPostCreate.as_view(), name="postComment"),
 ]

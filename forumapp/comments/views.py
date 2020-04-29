@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.http import Http404
@@ -6,6 +6,9 @@ from django.views import generic
 from django.contrib.auth import get_user_model
 from .models import Comment
 from braces.views import SelectRelatedMixin
+from django.views.generic import View
+from .forms import CommentPostForm
+from posts.models import Post
 
 # Create your views here.
 User = get_user_model()
@@ -53,3 +56,22 @@ class UserComment(generic.ListView):
         context = super().get_context_data(**kwargs)
         context['comment_user'] = self.comment_user
         return context;
+
+
+class  CommentPostCreate(View):
+    def get(self, request):
+        form = CommentPostForm()
+        return render(request, 'posts/post_detail.html', {'form' : form})
+
+    def  post(self,request,pk,username):
+
+        post = Post.objects.get(id=pk)
+        comment_content = request.POST["content"]
+        comment = Comment()
+        comment.post = post
+        comment.user = User.objects.get(username=username)
+        comment.content=comment_content
+        comment.save()
+        return  reverse('posts:single',kwargs={'pk' : pk})
+
+

@@ -12,4 +12,5 @@ urlpatterns = [
     path("by/<username>/<int:pk>/",views.PostDetail.as_view(),name="single"),
     
     path("delete/<int:pk>/",views.DeletePost.as_view(),name="delete"),
+
 ]

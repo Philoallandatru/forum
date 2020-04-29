@@ -11,6 +11,8 @@ class PostForm(forms.ModelForm):
         user = kwargs.pop("user", None)
         super().__init__(*args, **kwargs)
         if user is not None:
+
+            # you can only post to group you joined 
             self.fields["group"].queryset = (
                 models.Group.objects.filter(
                     pk__in=user.groups.values_list("group__pk")
@@ -20,3 +22,6 @@ class PostForm(forms.ModelForm):
 
 class SearchForm(forms.Form):
     group_name = forms.CharField()
+
+class CommentPostForm():
+    pass
