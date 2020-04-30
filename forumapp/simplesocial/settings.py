@@ -39,10 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'bootstrap4',
-    'comments.apps.CommentsConfig',
-    'accounts.apps.AccountsConfig',
-    'groups.apps.GroupsConfig',
-    'posts.apps.PostsConfig',
+    'comments',
+    'accounts',
+    'groups',
+    'posts',
 ]
 
 MIDDLEWARE = [

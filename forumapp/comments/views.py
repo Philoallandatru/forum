@@ -59,19 +59,19 @@ class UserComment(generic.ListView):
 
 
 class  CommentPostCreate(View):
-    def get(self, request):
-        form = CommentPostForm()
-        return render(request, 'posts/post_detail.html', {'form' : form})
+    # def get(self, request):
+    #     form = CommentPostForm()
+    #     return render(request, 'posts/post_detail.html', {'form' : form})
 
     def  post(self,request,pk,username):
-
         post = Post.objects.get(id=pk)
-        comment_content = request.POST["content"]
+        comment_content = request.POST.get('content')
         comment = Comment()
         comment.post = post
         comment.user = User.objects.get(username=username)
         comment.content=comment_content
         comment.save()
-        return  reverse('posts:single',kwargs={'pk' : pk})
+        return redirect(post.get_absolute_url())
+        # return  reverse(post.get_absolute_url())
 
 
