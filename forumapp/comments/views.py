@@ -63,7 +63,7 @@ class  CommentPostCreate(View):
     #     form = CommentPostForm()
     #     return render(request, 'posts/post_detail.html', {'form' : form})
 
-    def  post(self,request,pk,username):
+    def post(self,request,pk,username):
         post = Post.objects.get(id=pk)
         comment_content = request.POST.get('content')
         comment = Comment()

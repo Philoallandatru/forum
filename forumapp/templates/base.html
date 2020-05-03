@@ -32,16 +32,22 @@
 		<div class="container">
 			<a class="navbar-brand" href="{% url 'home' %}">Liebe</a>
 
-			<div class="collapse navbar-collapse" id="navbarResponsive">
+					<a class="nav-item nav-link" href="{% url 'groups:all' %}" class="btn btn-simple">所有板块</a>
 
-				<ul class="navbar-nav ml-auto">
 					{% if user.is_authenticated %}
+
 					<a class="nav-item nav-link" href="{% url 'posts:create' %}" class="btn btn-simple">发表讨论帖</a>
-					<a class="nav-item nav-link" href="{% url 'groups:all' %}" class="btn btn-simple">所有板块</a>
-					<a class="nav-item nav-link" href="{% url 'groups:create' %}" class="btn btn-simple">创建板块</a>
+
+						{% if user.is_superuser %}
+						
+						<a class="nav-item nav-link" href="{% url 'groups:create' %}" class="btn btn-simple">创建板块</a>
+						
+						{% endif %}
+
 					<a class="nav-item nav-link" href="{% url 'accounts:logout' %}" class="btn btn-simple">注销</a>
+
 					{% else %}
-					<a class="nav-item nav-link" href="{% url 'groups:all' %}" class="btn btn-simple">所有板块</a>
+
 					<a class="nav-item nav-link" href="{% url 'accounts:login' %}" class="btn btn-simple">登录</a>
 					<a class="nav-item nav-link" href="{% url 'accounts:signup' %}" class="btn btn-simple">注册</a>
 					{% endif %}
@@ -51,10 +57,8 @@
 						<button class="btn btn-outline-success my-2 my-sm-0" type="submit" value="Submit">搜索</button>
 						{% csrf_token %}
 					</form>
-				</ul>
 
 
-			</div>
 		</div>
 	</nav>
 

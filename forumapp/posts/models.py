@@ -6,9 +6,7 @@ from django.urls import reverse
 import misaka
 
 from groups.models import Group
-
-from django.contrib.auth import get_user_model
-User = get_user_model()
+from accounts.models import User
 
 
 class Post(models.Model):
