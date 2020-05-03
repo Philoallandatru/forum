@@ -19,7 +19,11 @@ class PostList(SelectRelatedMixin, generic.ListView):
     select_related = ("user", "group")
 
 
+
 class UserPosts(generic.ListView):
+    """
+    get all the posts posted by a user
+    """
     model = models.Post
     template_name = "posts/user_post_list.html"
 
@@ -43,6 +47,8 @@ class PostDetail(SelectRelatedMixin, generic.DetailView):
     model = models.Post
     select_related = ("user", "group")
 
+
+    # the id of the post is known, so next set restraint on the username
     def get_queryset(self):
         queryset = super().get_queryset()
         return queryset.filter(
@@ -61,7 +67,7 @@ class CreatePost(LoginRequiredMixin, SelectRelatedMixin, generic.CreateView):
     #     return kwargs
 
     def form_valid(self, form):
-        self.object = form.save(commit=False)
+        self.object = form.save(commit=False) # save here
         self.object.user = self.request.user
         self.object.save()
         return super().form_valid(form)

@@ -32,49 +32,38 @@
 		<div class="container">
 			<a class="navbar-brand" href="{% url 'home' %}">Liebe</a>
 
-					<a class="nav-item nav-link" href="{% url 'groups:all' %}" class="btn btn-simple">所有板块</a>
+			<a class="nav-item nav-link" href="{% url 'groups:all' %}" class="btn btn-simple">所有板块</a>
 
-					{% if user.is_authenticated %}
+			{% if user.is_authenticated %}
 
-					<a class="nav-item nav-link" href="{% url 'posts:create' %}" class="btn btn-simple">发表讨论帖</a>
+			<a class="nav-item nav-link" href="{% url 'posts:create' %}" class="btn btn-simple">发表讨论帖</a>
 
-						{% if user.is_superuser %}
-						
-						<a class="nav-item nav-link" href="{% url 'groups:create' %}" class="btn btn-simple">创建板块</a>
-						
-						{% endif %}
+			{% if user.is_superuser %}
 
-					<a class="nav-item nav-link" href="{% url 'accounts:logout' %}" class="btn btn-simple">注销</a>
+			<a class="nav-item nav-link" href="{% url 'groups:create' %}" class="btn btn-simple">创建板块</a>
 
-					{% else %}
+			{% endif %}
 
-					<a class="nav-item nav-link" href="{% url 'accounts:login' %}" class="btn btn-simple">登录</a>
-					<a class="nav-item nav-link" href="{% url 'accounts:signup' %}" class="btn btn-simple">注册</a>
-					{% endif %}
-					<form class="form-inline" action="{% url 'groups:search_result' %}" method="post" id="searchForm">
-						<input class="form-control mr-sm-2" type="search" placeholder="你感兴趣的VN" aria-label="Search"
-							name="group_name">
-						<button class="btn btn-outline-success my-2 my-sm-0" type="submit" value="Submit">搜索</button>
-						{% csrf_token %}
-					</form>
+			<a class="nav-item nav-link" href="{% url 'accounts:logout' %}" class="btn btn-simple">注销</a>
+
+			{% else %}
+
+			<a class="nav-item nav-link" href="{% url 'accounts:login' %}" class="btn btn-simple">登录</a>
+			<a class="nav-item nav-link" href="{% url 'accounts:signup' %}" class="btn btn-simple">注册</a>
+			{% endif %}
+
 
 
 		</div>
 	</nav>
 
-
-
-
-
-
-
-	<br class="container mycontent">
 	</br>
 	</br>
-	{% block content %}
 
-	{% endblock %}
-	</div>
+
+
+
+
 
 
 
@@ -83,12 +72,24 @@
 			<div class="col-lg-8">
 				<!-- LEFT -->
 
-				{% block  left_content %}
-				{% endblock %}
+				<div class="container mycontent">
+
+
+
+					{% block  left_content %}
+
+					{% endblock %}
+
+
+					{% block content %}
+
+					{% endblock %}
+
+				</div>
+
+
 
 			</div><!-- END LEFT -->
-
-
 
 
 			<div class="col-lg-4">
@@ -98,29 +99,44 @@
 				<div class="panel panel-default">
 
 					<div class="panel-body user-panel">
+
 						<div class="panel-user-info">
-							<!-- <div class="avatar-name">
+
+							{% comment %} user avatar {% endcomment %}
+							<div class="avatar-name">
 								<a href="#">
 									<img class="panel-avatar user-avatar" src="{% static  'image/3.jpg' %}" alt="" />
 								</a>
 								<span class="panel-username"><a href="#">{{ user.username }}</a></span>
 							</div>
+
+							{% comment %} other user information {% endcomment %}
 							<div class="row panel-user-meta">
+
+
 								<div class="col-xs-4 panel-user-meta-item">
-									{% comment %} <a href="{% url 'user:infoprofile'  username1=request.user.username %}"> {% endcomment %}
+									{% comment %} <a
+										href="{% url 'user:infoprofile'  username1=request.user.username %}">
+										{% endcomment %}
 										<div class="text-center">
 											<p class="panel-user-meta-item-value">
-												{% comment %} {% each_people_num  request.user.username %} {% endcomment %}
+												{{  user.posts.count }}
+												{% comment %} {% each_people_num  request.user.username %}
+												{% endcomment %}
 											</p>
-											<p class="panel-user-meta-item-title">主题</p>
+											<p class="panel-user-meta-item-title">发表帖子数</p>
 										</div>
 									</a>
 								</div>
 								<div class="col-xs-4 panel-user-meta-item">
-									{% comment %} <a href="{% url  'user:inforeply'  username1=request.user.username %}"> {% endcomment %}
+									{% comment %} <a
+										href="{% url  'user:inforeply'  username1=request.user.username %}">
+										{% endcomment %}
 										<div class="text-center">
 											<p class="panel-user-meta-item-value">
-												{% comment %} {% each_reply_num  request.user.username %} {% endcomment %}
+												{{ user.comments.count }}
+												{% comment %} {% each_reply_num  request.user.username %}
+												{% endcomment %}
 											</p>
 											<p class="panel-user-meta-item-title">回复</p>
 										</div>
@@ -135,7 +151,7 @@
 										</div>
 									</a>
 								</div>
-							</div> -->
+							</div>
 
 						</div>
 
@@ -144,7 +160,7 @@
 
 					<ul class="list-group">
 						<!-- <li class="list-group-item">
-							{% comment %} <a href="{% url  'topic:create_topic' username=request.user.username %}"> {% endcomment %}
+							{% comment %} <a href="{% url  'post:create' username=user.username %}"> {% endcomment %}
 								<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
 								创建一篇文章
 							</a>
@@ -171,6 +187,8 @@
 
 
 				{% else %}
+
+				{% comment %} if the user has bot logined {% endcomment %}
 				<div class="panel panel-default">
 					<div class="panel-heading"><strong>Forum</strong></div>
 					<div class="panel-body">
@@ -194,11 +212,22 @@
 
 
 				{% endif %}
+
+
 				{% block  theme_tag %}
 
 				<div class="panel panel-default">
-					<div class="panel-heading">内置主题</div>
+					<div class="panel-heading">包含板块</div>
 					<div class="panel-body">
+
+						<form class="form-inline" action="{% url 'groups:search_result' %}" method="post"
+							id="searchForm">
+							<input class="form-control-sm form-control" type="search" placeholder="你感兴趣的板块"
+								aria-label="Search" name="group_name">
+							<button class="btn btn-outline-success  btn-sm" type="submit" value="Submit">搜索</button>
+							{% csrf_token %}
+						</form>
+
 
 						<!-- <a href="/theme/1/">
 							<span class="label label-default meta-node">生物知识</span>

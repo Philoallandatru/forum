@@ -1,27 +1,25 @@
 {% extends "groups/group_base.html" %}
 
 {% block pregroup %}
-<div class="col-md-4">
+<div class="col-md-6">
 	<div class="content">
 		{% if user.is_authenticated %}
 		<h2>
-			欢迎回来。
+			欢迎回来
 			<a href="{% url 'posts:for_user' username=user.username %}">@{{user.username }}</a>
 		</h2>
 
     {% endif %}
-			<h2>讨论组</h2>
 
-			<p>欢迎来到讨论组页面 <br>选择你感兴趣的VN一起来讨论吧！</p>
 	</div>
-	{% if user.is_authenticated %}
+	{% if user.is_authenticated and user.is_superuser %}
 	<a href="{% url 'groups:create' %}" class="btn btn-warning" role="button"><span class="fa fa-plus"></span> 创建新的讨论组</a>
 	{% endif %}
-</div>
-{% endblock %}
+	
 
-{% block group_content %}
-<div class="col-md-8">
+</br>
+</br>
+
 	<div class="list-group">
 		{% for group in object_list %}
 
@@ -42,5 +40,16 @@
 
 		{% endfor %}
 	</div>
+
+
+
+
+
 </div>
+{% endblock %}
+
+{% block group_content %}
+<!-- <div class="col-md-8"> -->
+
+<!-- </div> -->
 {% endblock %}

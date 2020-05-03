@@ -15,6 +15,8 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now=True)
     message = models.TextField()
     message_html = models.TextField(editable=False)
+
+    # notes for related name: therefore you can use group.posts to reference all the posts in the group
     group = models.ForeignKey(
         Group, related_name="posts",null=True, 
         blank=True,on_delete=models.CASCADE

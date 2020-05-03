@@ -25,12 +25,12 @@ class ListGroups(generic.ListView):
 def Search(request):
     if request.method == 'POST':
         group_name = request.POST['group_name']
-        group_list = Group.objects.filter(name = group_name)
+        group_list = Group.objects.filter(name__icontains  = group_name)
         if len(group_list) == 0:
             return render(request, 'groups/group_search_not_found.html', {})
         else:
             link = group_list[0].get_absolute_url()
-            return render(request, 'groups/groups_search.html', {'group_name' : group_name, 'link' : link})
+            return render(request, 'groups/groups_search.html', {'group_list' : group_list})
 
 
 class JoinGroup(LoginRequiredMixin, generic.RedirectView):

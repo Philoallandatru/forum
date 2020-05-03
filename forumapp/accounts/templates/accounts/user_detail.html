@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+
+{% block content %}
+
+{{ user.username }}
+
+{{ user.signature }}
+
+{{  user.posts.count }}
+
+
+{% endblock content %}
+
