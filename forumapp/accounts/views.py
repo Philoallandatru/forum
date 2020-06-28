@@ -2,9 +2,10 @@ from django.contrib.auth import login, logout
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView
 from . import forms
-from .models import User
-from django.shortcuts import render
+from .models import User, Friend
+from django.shortcuts import render, redirect
 from posts.models import Post
+
 
 
 # Create your views here.
@@ -22,13 +23,29 @@ def UserProfilePage(request, username):
     post_user = User.objects.prefetch_related("posts").get(username__iexact=username)
     posts = post_user.posts.all()
     comments = post_user.comments.all()
+    my_friends = Friend.objects.get(current_user = request.user).users.all()
+    # his_friends = Friend.objects.get(current_user = post_user).users.all()
     context = {
         'posts' : posts,
         'comments' : comments,
+        'this_user' : post_user,
+        'my_friends' : my_friends,
+        # 'his_friends' : his_friends,
 
     }
     return render(request, "accounts/user_profile.html", context)
 
 
 
+# def add_friend(request, pk):
 
+#     return 
+
+
+def change_friends(request, operation, pk):
+    friend = User.objects.get(pk=pk)
+    if operation == 'add':
+        Friend.make_friend(request.user, friend)
+    elif operation == 'remove':
+        Friend.lose_friend(request.user, friend)
+    return redirect(friend.get_absolute_url())

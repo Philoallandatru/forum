@@ -2,6 +2,92 @@
 
 {% load static %}
 
+{% block pre_user %}
+
+
+<div class="panel panel-default">
+
+    <div class="panel-body user-panel">
+
+        <div class="panel-user-info">
+
+            {% comment %} user avatar {% endcomment %}
+            <div class="avatar-name">
+                <a href="#">
+                    <img class="panel-avatar user-avatar" src="{% static  'image/3.jpg' %}" alt="" />
+                </a>
+                <span class="panel-username"><a href="{% url 'accounts:profile' username=this_user.username %}">{{ this_user.username }}</a></span>
+                
+                {% if this_user not in my_friends %}
+                    <a href="{% url 'accounts:change_friend' operation='add' pk=this_user.id %}">
+                        <button type="button" class="btn btn-dark">关注</button>  
+                    </a>
+                    
+
+                {% else %}
+                <a href="{% url 'accounts:change_friend' operation='remove' pk=this_user.id %}">
+                    <button type="button" class="btn btn-success" >取消关注</button>
+
+                </a>
+
+                {% endif %}
+
+            </div>
+
+            {% comment %} other user information {% endcomment %}
+            <div class="row panel-user-meta">
+
+
+                <div class="col-xs-4 panel-user-meta-item">
+                    {% comment %} <a href="{% url 'user:infoprofile'  username1=request.user.username %}">
+                        {% endcomment %}
+                        <div class="text-center">
+                            <p class="panel-user-meta-item-value">
+                                {{  this_user.posts.count }}
+                                {% comment %} {% each_people_num  request.user.username %}
+                                {% endcomment %}
+                            </p>
+                            <p class="panel-user-meta-item-title">发表帖子数</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-xs-4 panel-user-meta-item">
+                    {% comment %} <a href="{% url  'user:inforeply'  username1=request.user.username %}">
+                        {% endcomment %}
+                        <div class="text-center">
+                            <p class="panel-user-meta-item-value">
+                                {{ this_user.comments.count }}
+                                {% comment %} {% each_reply_num  request.user.username %}
+                                {% endcomment %}
+                            </p>
+                            <p class="panel-user-meta-item-title">回复</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-xs-4 panel-user-meta-item">
+                    <a href="#">
+                        <div class="text-center">
+                            <p class="panel-user-meta-item-value"><strong>{{ this_user.id }}</strong>
+                            </p>
+                            <p class="panel-user-meta-item-title"><strong>账号唯一标识符</strong></p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <ul class="list-group">
+
+    </ul>
+
+</div>
+
+{% endblock pre_user %}
+
 {% block user_content %}
 
 <div class="card text-center">
@@ -11,7 +97,7 @@
                 <a class="nav-link active" href="#">发帖</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
+                <a class="nav-link" href="#">他的关注</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
@@ -20,39 +106,39 @@
     </div>
     <div class="card-body">
 
-       {% for post in posts %}
-            <div class="card">
-  <h3 class="card-header">{{  post.create_at }}</h3>
-  <div class="card-body">
-    <h5 class="card-title">{{  post.title }}</h5>
-    <p class="card-text"> {{ post.message }} </p>
-    				<a href="{% url 'posts:delete' pk=post.pk %}" title="delete" class="btn btn-simple">
-					<span class="fa fa-remove text-danger" aria-hidden="true"></span>
-					<span class="text-danger icon-label">删除</span>
-				</a>
-  </div>
-</div>
+        {% for post in posts %}
+        <div class="card">
+            <h3 class="card-header">{{  post.create_at }}</h3>
+            <div class="card-body">
+                <h5 class="card-title">{{  post.title }}</h5>
+                <p class="card-text"> {{ post.message }} </p>
+                <a href="{% url 'posts:delete' pk=post.pk %}" title="delete" class="btn btn-simple">
+                    <span class="fa fa-remove text-danger" aria-hidden="true"></span>
+                    <span class="text-danger icon-label">删除</span>
+                </a>
+            </div>
+        </div>
 
-    {% for comment in comments %}
+        {% for comment in comments %}
 
-               <div class="card">
-  <h3 class="card-header">{{  comment.date }}</h3>
-  <div class="card-body">
-    {% comment %} <h5 class="card-title">{{  comment.title }}</h5> {% endcomment %}
-    <p class="card-text"> {{ comment.content}} </p>
-    <a href="#" class="btn btn-primary">Go somewhere</a>
-  </div>
-</div>
-    
-    
-    {% endfor %}
-        
-        {% endfor %} 
+        <div class="card">
+            <h3 class="card-header">{{  comment.date }}</h3>
+            <div class="card-body">
+                {% comment %} <h5 class="card-title">{{  comment.title }}</h5> {% endcomment %}
+                <p class="card-text"> {{ comment.content}} </p>
+                <a href="#" class="btn btn-primary">Go somewhere</a>
+            </div>
+        </div>
+
+
+        {% endfor %}
+
+        {% endfor %}
 
 
     </div>
 
-    
+
 </div>
 
 
