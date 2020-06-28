@@ -10,4 +10,8 @@ urlpatterns = [
     path('signup/', views.SignUp.as_view(), name="signup"),
     path('profile/<username>/', views.UserProfilePage, name="profile"),
     path('connect/<operation>/<int:pk>/', views.change_friends, name="change_friend"),
+
+    path('follows/<int:pk>', views.follows_him, name="follows_him"),
+    path('unfollows/<int:pk>', views.unfollows_him, name="unfollows_him"),
+
 ]

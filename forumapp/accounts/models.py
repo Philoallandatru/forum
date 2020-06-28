@@ -7,7 +7,7 @@ from django.urls import reverse
 class User(AbstractUser):
     signature = models.CharField(max_length=255, blank=True, null=True)
     head_img = models.ImageField(height_field=150, width_field=150, blank=True, null=True)
-    friends = models.ManyToManyField("self", blank=True)
+    friends = models.ManyToManyField("User", blank=True, related_name='followed_by')
 
     def __str__(self):
         return "" + self.username
@@ -48,7 +48,3 @@ class Friend(models.Model):
         )
         friend.users.remove(new_friend)
 
-# class Connection(models.Model):
-#     created = models.DateTimeField(auto_now_add=True, editable=False)
-#     creator = models.ForeignKey(User, related_name="friendship_creator_set")
-#     following = models.ForeignKey(User, related_name="friend_set")

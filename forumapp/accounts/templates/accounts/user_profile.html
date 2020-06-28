@@ -19,13 +19,13 @@
                 <span class="panel-username"><a href="{% url 'accounts:profile' username=this_user.username %}">{{ this_user.username }}</a></span>
                 
                 {% if this_user not in my_friends %}
-                    <a href="{% url 'accounts:change_friend' operation='add' pk=this_user.id %}">
+                    <a href="{% url 'accounts:follows_him' pk=this_user.id %}">
                         <button type="button" class="btn btn-dark">关注</button>  
                     </a>
                     
 
                 {% else %}
-                <a href="{% url 'accounts:change_friend' operation='remove' pk=this_user.id %}">
+                <a href="{% url 'accounts:unfollows_him'  pk=this_user.id %}">
                     <button type="button" class="btn btn-success" >取消关注</button>
 
                 </a>

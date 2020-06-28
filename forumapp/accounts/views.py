@@ -23,7 +23,7 @@ def UserProfilePage(request, username):
     post_user = User.objects.prefetch_related("posts").get(username__iexact=username)
     posts = post_user.posts.all()
     comments = post_user.comments.all()
-    my_friends = Friend.objects.get(current_user = request.user).users.all()
+    my_friends = request.user.friends.all()
     # his_friends = Friend.objects.get(current_user = post_user).users.all()
     context = {
         'posts' : posts,
@@ -49,3 +49,17 @@ def change_friends(request, operation, pk):
     elif operation == 'remove':
         Friend.lose_friend(request.user, friend)
     return redirect(friend.get_absolute_url())
+
+def follows_him(request, pk):
+    him = User.objects.get(pk=pk)
+    request.user.friends.add(him)
+
+    return redirect(him)
+
+
+def unfollows_him(request, pk):
+    him = User.objects.get(pk=pk)
+    request.user.friends.remove(him)
+
+    return redirect(him)
+    
