@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 from django.urls import reverse
 from django.utils.text import slugify
+from unidecode import unidecode
 # from accounts.models import User
 
 # pip install misaka
@@ -27,7 +28,9 @@ class Group(models.Model):
         return self.name
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
+
+        self.slug = slugify(unidecode(self.name)) # this line uses module 'unidecode' solves the chinese character problem
+
         self.description_html = misaka.html(self.description)
         super().save(*args, **kwargs)
 
