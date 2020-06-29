@@ -4,6 +4,8 @@ from django.urls import reverse_lazy
 from django.http import Http404
 from django.views import generic
 from django.shortcuts import get_object_or_404,redirect
+from django.contrib.auth.decorators import login_required
+
 
 # pip install django-braces
 from braces.views import SelectRelatedMixin
@@ -104,3 +106,4 @@ def LikesToggle(request, pk):
         post.likes.add(user)
 
     return redirect(url_)
+

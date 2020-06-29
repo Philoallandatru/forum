@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
 from django.urls import reverse
+from PIL import Image
 
 # Create your models here.
 class User(AbstractUser):
@@ -19,6 +20,18 @@ class User(AbstractUser):
                 "username": self.username,
             }
         )
+
+    # def save(self):
+    #     super().save()
+        
+
+    #     img = Image.open(self.head_img.path)
+
+    #     if img.height > 300 or img.width > 300:
+    #         output_size  = (300, 300)
+    #         img.thumbnail(output_size)
+    #         img.save(self.head_img.path)
+
 
     
     # def get_connections(self):

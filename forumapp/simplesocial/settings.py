@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'groups',
     'posts',
     'django_extensions',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [

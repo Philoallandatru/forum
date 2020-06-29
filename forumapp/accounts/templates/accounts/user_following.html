@@ -14,40 +14,53 @@
             <li class="nav-item">
                 <a class="nav-link active" href="{% url 'accounts:following' username=this_user.username %}">他的关注</a>
             </li>
+
+            {% if this_user.id == user.id %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'accounts:update_profile' username=user.username %}">个人资料</a>
+            </li>
+
+            {% endif %}
         </ul>
     </div>
     <div class="card-body">
 
         {% for fan in this_user.friends.all %}
-        <div class="card">
-            <h3 class="card-header">{{  fan.username }}</h3>
 
-            {% comment %} <div class="card-body">
-                <h5 class="card-title">{{  post.title }}</h5>
-                <p class="card-text"> {{ post.message }} </p>
-                <a href="{% url 'posts:delete' pk=post.pk %}" title="delete" class="btn btn-simple">
-                    <span class="fa fa-remove text-danger" aria-hidden="true"></span>
-                    <span class="text-danger icon-label">删除</span>
-                </a>
-            </div> {% endcomment %}
 
-        </div>
 
-    {% comment %} {% for fan in this_user.friends.all %}
+        <div class="card mb-3 m-3">
+            <div class="row no-gutters">
+                <div class="col-md-4">
 
-        <div class="card">
-            <h3 class="card-header">{{  fan.username}}</h3>
-            <div class="card-body">
-                <h5 class="card-title">{{  comment.title }}</h5>
-                
-                <p class="card-text"> {{ comment.content}} </p>
-                <a href="#" class="btn btn-primary">Go somewhere</a> 
-            
+
+                    <a href="{% url 'accounts:profile' username=fan.username %}">
+                        <img src="{{ fan.head_img.url }}" class="card-img" alt="...">
+
+                    </a>
+
+
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+
+
+                        <a href="{% url 'accounts:profile' username=fan.username %}">
+                            <h5 class="card-title">{{ fan.username }}</h5>
+
+                        </a>
+
+
+                        <p class="card-text">{{ fan.signature }}</p>
+                        {% comment %} <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                        {% endcomment %}
+                    </div>
+                </div>
             </div>
         </div>
 
 
-        {% endfor %} {% endcomment %}
+
 
         {% endfor %}
 

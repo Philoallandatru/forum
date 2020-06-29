@@ -14,32 +14,33 @@
             {% comment %} user avatar {% endcomment %}
             <div class="avatar-name">
                 <a href="{% url 'accounts:profile' username=this_user.username %}">
-                    <img class="panel-avatar user-avatar rounded-circle" src="{{ user.head_img.url }}" alt="" />
+                    <img class="panel-avatar user-avatar rounded-circle" src="{{ this_user.head_img.url }}" alt="" />
                 </a>
-                <span class="panel-username"><a href="{% url 'accounts:profile' username=this_user.username %}">{{ this_user.username }}</a></span>
+                <span class="panel-username"><a
+                        href="{% url 'accounts:profile' username=this_user.username %}">{{ this_user.username }}</a></span>
 
                 {% if this_user.username != user.username %}
 
-                    {% if this_user not in my_friends %}
-                        <a href="{% url 'accounts:follows_him' pk=this_user.id %}">
-                            <button type="button" class="btn btn-dark">关注</button>  
-                        </a>
-                        
+                {% if this_user not in my_friends %}
+                <a href="{% url 'accounts:follows_him' pk=this_user.id %}">
+                    <button type="button" class="btn btn-dark">关注</button>
+                </a>
 
-                    {% else %}
-                    <a href="{% url 'accounts:unfollows_him'  pk=this_user.id %}">
-                        <button type="button" class="btn btn-success" >取消关注</button>
 
-                    </a>
+                {% else %}
+                <a href="{% url 'accounts:unfollows_him'  pk=this_user.id %}">
+                    <button type="button" class="btn btn-success">取消关注</button>
 
-                    {% endif %}
+                </a>
+
+                {% endif %}
 
                 {% else %}
 
-                    
-                
+
+
                 {% endif %}
-                
+
 
 
             </div>
@@ -94,8 +95,8 @@
                 </div>
 
 
-                
-            </div>  
+
+            </div>
 
         </div>
 
@@ -116,50 +117,78 @@
     <div class="card-header">
         <ul class="nav nav-pills card-header-pills">
             <li class="nav-item">
-                <a class="nav-link active" href="{% url 'accounts:profile' username=this_user.username %}">发帖</a>
+                <a class="nav-link active" href="{% url 'accounts:profile' username=this_user.username %}">发帖和回帖</a>
             </li>
+
+
+
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'accounts:fans' username=this_user.username %}">他的粉丝</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'accounts:following' username=this_user.username %}">他的关注</a>
             </li>
+            {% if this_user.id == user.id %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'accounts:update_profile' username=user.username %}">个人资料</a>
+            </li>
+
+            {% endif %}
+
+            {% if this_user.id == user.id %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'accounts:edit_profile' username=user.username %}">个人资料</a>
+            </li>
+
+            {% endif %}
 
         </ul>
     </div>
     <div class="card-body">
 
         {% for post in posts %}
-        <div class="card">
-            <h3 class="card-header">{{  post.create_at }}</h3>
+
+        <div class="card text-white bg-info mb-3 m-3">
+            <div class="card-header pull-left">{{  post.title }}</div>
             <div class="card-body">
-                <h5 class="card-title">{{  post.title }}</h5>
-                <p class="card-text"> {{ post.message }} </p>
-                <a href="{% url 'posts:delete' pk=post.pk %}" title="delete" class="btn btn-simple">
-                    <span class="fa fa-remove text-danger" aria-hidden="true"></span>
-                    <span class="text-danger icon-label">删除</span>
+                {% comment %} <h5 class="card-title">Dark card title</h5> {% endcomment %}
+
+
+
+                <p class="card-text pull-left">{{ post.message }}</p>
+
+                {% if post.user.username == user.username %}
+
+                <a href="{% url 'posts:delete' pk=post.pk %}" title="delete" class="btn btn-simple pull-right">
+                    <span class="fa fa-remove text-white" aria-hidden="true"></span>
+                    <span class="text-white icon-label">删除</span>
                 </a>
-            </div>
-        </div>
 
-        {% for comment in comments %}
+                {% endif %}
 
-        <div class="card">
-            <h3 class="card-header">{{  comment.date }}</h3>
-            <div class="card-body">
-                {% comment %} <h5 class="card-title">{{  comment.title }}</h5> {% endcomment %}
-                <p class="card-text"> {{ comment.content}} </p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
             </div>
         </div>
 
 
-        {% endfor %}
-
-        {% endfor %}
+    {% endfor %}
 
 
+    {% for comment in comments %}
+
+
+
+    <div class="card bg-light mb-3" ">
+<div class=" card-body">
+        <h5 class="card-title pull-left">{{  comment.content }}</h5>
+        <p class="card-text">{{ comment.date }}</p>
     </div>
+</div>
+
+
+{% endfor %}
+
+
+</div>
 
 
 </div>

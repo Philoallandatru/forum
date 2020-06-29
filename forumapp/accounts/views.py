@@ -5,6 +5,9 @@ from . import forms
 from .models import User, Friend
 from django.shortcuts import render, redirect
 from posts.models import Post
+from django.contrib.auth.decorators import login_required
+from .forms import UserUpdateForm
+from django.contrib import messages
 
 
 
@@ -96,3 +99,41 @@ def UserFollows(request, username):
 
     }
     return render(request, "accounts/user_following.html", context)
+
+
+def updateProfile(request, username):
+    if request.method == 'POST':
+        _form = UserUpdateForm(request.POST, request.FILES, instance=request.user)
+        if _form.is_valid():
+            _form.save()
+            messages.success(request, f'Your account has been updated!')
+            return redirect(request.user)
+    else:
+        _form = UserUpdateForm(instance=request.user)
+
+
+    context = {
+        'form' : _form,
+        'username' : request.user.username
+    }
+
+    return render(request, "accounts/user_profile_edit.html" , context=context)
+
+
+def editUserProfile(request, username):
+    if request.method == 'POST':
+        _form = UserUpdateForm(request.POST, request.FILES, instance=request.user)
+        if _form.is_valid():
+            _form.save()
+            messages.success(request, f'Your account has been updated!')
+            return redirect(request.user)
+    else:
+        _form = UserUpdateForm(instance=request.user)
+
+
+    context = {
+        'form' : _form,
+        'username' : request.user.username
+    }
+
+    return render(request, "accounts/user_profile_update.html" , context=context)
