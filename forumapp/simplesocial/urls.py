@@ -16,6 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from . import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('', views.HomePage.as_view(), name="home"),
@@ -28,3 +30,7 @@ urlpatterns = [
     path('groups/',include("groups.urls", namespace="groups")),
     path('comments/', include("comments.urls", namespace="comments")),
 ]
+
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

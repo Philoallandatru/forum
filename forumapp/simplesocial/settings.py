@@ -131,3 +131,6 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 LOGIN_REDIRECT_URL = 'test'
 AUTH_USER_MODEL = 'accounts.User'
 LOGOUT_REDIRECT_URL = 'thanks'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/' # this spefies how you access the image using the browser

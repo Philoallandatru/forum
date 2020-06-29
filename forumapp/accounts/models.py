@@ -6,7 +6,7 @@ from django.urls import reverse
 # Create your models here.
 class User(AbstractUser):
     signature = models.CharField(max_length=255, blank=True, null=True)
-    head_img = models.ImageField(height_field=150, width_field=150, blank=True, null=True)
+    head_img = models.ImageField(blank=True, null=True, upload_to='profile_pics', default="default.jpeg")
     friends = models.ManyToManyField("User", blank=True, related_name='followed_by')
 
     def __str__(self):

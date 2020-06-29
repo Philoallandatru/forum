@@ -109,7 +109,7 @@
 							{% comment %} user avatar {% endcomment %}
 							<div class="avatar-name">
 								<a href="#">
-									<img class="panel-avatar user-avatar" src="{% static  'image/3.jpg' %}" alt="" />
+									<img class="panel-avatar user-avatar rounded-circle" src="{{ user.head_img.url }}" alt="" />
 								</a>
 								<span class="panel-username"><a href="#">{{ user.username }}</a></span>
 							</div>
@@ -304,8 +304,8 @@
 		integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
 		crossorigin="anonymous"></script> {% endcomment %}
 
-	<script src="{% static  'js/jquery-2.2.4.min.js' %}"></script>
-	<script src="{% static  'js/bootstrap.min.js' %}"></script>
+	<script src="{% static  'jquery-2.2.4.min.js' %}"></script>
+	<script src="{% static  'bootstrap.min.js' %}"></script>
 </body>
 
 </html>

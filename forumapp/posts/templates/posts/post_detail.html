@@ -55,7 +55,7 @@
         <div class="topic-meta row">
 
             <div class="col-xs-2 col-sm-1">
-                <img class="user-avatar" src="{% static  'img/4.jpg' %}" alt="" />
+                <img class="user-avatar rounded-circle" src="{{ post.user.head_img.url }}" alt="" />
             </div>
 
             <div class="col-xs-9 col-sm-10">
@@ -99,7 +99,7 @@
         <li class="list-group-item reply-item">
             <div class="topic-meta row">
                 <div class="col-xs-2 col-sm-1">
-                    <img class="user-avatar" src="{% static 'image/1.jpg' %}" alt="">
+                    <img class="user-avatar rounded-circle" src="{{ comment.user.head_img.url }}" alt="">
                 </div>
                 <div class="col-xs-9 col-sm-10">
                     <p class="text-muted">
