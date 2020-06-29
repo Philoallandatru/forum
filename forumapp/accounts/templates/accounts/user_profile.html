@@ -13,24 +13,30 @@
 
             {% comment %} user avatar {% endcomment %}
             <div class="avatar-name">
-                <a href="#">
+                <a href="{% url 'accounts:profile' username=this_user.username %}">
                     <img class="panel-avatar user-avatar" src="{% static  'image/3.jpg' %}" alt="" />
                 </a>
                 <span class="panel-username"><a href="{% url 'accounts:profile' username=this_user.username %}">{{ this_user.username }}</a></span>
-                
-                {% if this_user not in my_friends %}
-                    <a href="{% url 'accounts:follows_him' pk=this_user.id %}">
-                        <button type="button" class="btn btn-dark">关注</button>  
+
+                {% if this_user.username != user.username %}
+
+                    {% if this_user not in my_friends %}
+                        <a href="{% url 'accounts:follows_him' pk=this_user.id %}">
+                            <button type="button" class="btn btn-dark">关注</button>  
+                        </a>
+                        
+
+                    {% else %}
+                    <a href="{% url 'accounts:unfollows_him'  pk=this_user.id %}">
+                        <button type="button" class="btn btn-success" >取消关注</button>
+
                     </a>
-                    
 
-                {% else %}
-                <a href="{% url 'accounts:unfollows_him'  pk=this_user.id %}">
-                    <button type="button" class="btn btn-success" >取消关注</button>
-
-                </a>
-
+                    {% endif %}
+                
                 {% endif %}
+                
+
 
             </div>
 
@@ -38,7 +44,7 @@
             <div class="row panel-user-meta">
 
 
-                <div class="col-xs-4 panel-user-meta-item">
+                <div class="col-xs-3 panel-user-meta-item">
                     {% comment %} <a href="{% url 'user:infoprofile'  username1=request.user.username %}">
                         {% endcomment %}
                         <div class="text-center">
@@ -51,7 +57,7 @@
                         </div>
                     </a>
                 </div>
-                <div class="col-xs-4 panel-user-meta-item">
+                <div class="col-xs-3 panel-user-meta-item">
                     {% comment %} <a href="{% url  'user:inforeply'  username1=request.user.username %}">
                         {% endcomment %}
                         <div class="text-center">
@@ -64,16 +70,28 @@
                         </div>
                     </a>
                 </div>
-                <div class="col-xs-4 panel-user-meta-item">
-                    <a href="#">
+                <div class="col-xs-3 panel-user-meta-item">
+                    <a href="{% url 'accounts:fans' username=this_user.username %}">
                         <div class="text-center">
-                            <p class="panel-user-meta-item-value"><strong>{{ this_user.id }}</strong>
+                            <p class="panel-user-meta-item-value"><strong>{{ this_user.followed_by.count }}</strong>
                             </p>
-                            <p class="panel-user-meta-item-title"><strong>账号唯一标识符</strong></p>
+                            <p class="panel-user-meta-item-title"><strong>他的粉丝</strong></p>
                         </div>
                     </a>
                 </div>
-            </div>
+                <div class="col-xs-3 panel-user-meta-item">
+                    <a href="{% url 'accounts:following' username=this_user.username %}">
+                        <div class="text-center">
+                            <p class="panel-user-meta-item-value"><strong>{{ this_user.friends.count }}</strong>
+                            </p>
+                            <p class="panel-user-meta-item-title"><strong>他的关注</strong></p>
+                        </div>
+                    </a>
+                </div>
+
+
+                
+            </div>  
 
         </div>
 
@@ -94,14 +112,15 @@
     <div class="card-header">
         <ul class="nav nav-pills card-header-pills">
             <li class="nav-item">
-                <a class="nav-link active" href="#">发帖</a>
+                <a class="nav-link active" href="{% url 'accounts:profile' username=this_user.username %}">发帖</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">他的关注</a>
+                <a class="nav-link" href="{% url 'accounts:fans' username=this_user.username %}">他的粉丝</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                <a class="nav-link" href="{% url 'accounts:following' username=this_user.username %}">他的关注</a>
             </li>
+
         </ul>
     </div>
     <div class="card-body">

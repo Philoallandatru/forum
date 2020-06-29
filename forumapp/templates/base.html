@@ -95,6 +95,7 @@
 			</div><!-- END LEFT -->
 
 
+			{% comment %} 个人信息 {% endcomment %}
 			<div class="col-lg-4">
 				<!-- RIGHT -->
 				{% if  user.is_authenticated %}
@@ -117,7 +118,7 @@
 							<div class="row panel-user-meta">
 
 
-								<div class="col-xs-4 panel-user-meta-item">
+								<div class="col-xs-3 panel-user-meta-item">
 									{% comment %} <a
 										href="{% url 'user:infoprofile'  username1=request.user.username %}">
 										{% endcomment %}
@@ -131,7 +132,7 @@
 										</div>
 									</a>
 								</div>
-								<div class="col-xs-4 panel-user-meta-item">
+								<div class="col-xs-3 panel-user-meta-item">
 									{% comment %} <a
 										href="{% url  'user:inforeply'  username1=request.user.username %}">
 										{% endcomment %}
@@ -145,15 +146,26 @@
 										</div>
 									</a>
 								</div>
-								<div class="col-xs-4 panel-user-meta-item">
-									<a href="#">
+								<div class="col-xs-3 panel-user-meta-item">
+									<a href="{% url 'accounts:following' username=user.username %}">
 										<div class="text-center">
-											<p class="panel-user-meta-item-value"><strong>{{ user.id }}</strong>
+											<p class="panel-user-meta-item-value"><strong>{{ request.user.friends.count }}</strong>
 											</p>
-											<p class="panel-user-meta-item-title"><strong>账号唯一标识符</strong></p>
+											<p class="panel-user-meta-item-title"><strong>我的关注</strong></p>
 										</div>
 									</a>
 								</div>
+
+								<div class="col-xs-3 panel-user-meta-item">
+									<a href="{% url 'accounts:fans' username=user.username %}">
+										<div class="text-center">
+											<p class="panel-user-meta-item-value"><strong>{{ request.user.followed_by.count }}</strong>
+											</p>
+											<p class="panel-user-meta-item-title"><strong>我的粉丝</strong></p>
+										</div>
+									</a>
+								</div>
+
 							</div>
 
 						</div>

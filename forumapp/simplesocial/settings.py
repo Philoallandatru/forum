@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'accounts',
     'groups',
     'posts',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [

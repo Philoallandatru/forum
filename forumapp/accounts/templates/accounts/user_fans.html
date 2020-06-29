@@ -1,0 +1,60 @@
+{% extends 'accounts/user_profile.html' %}
+
+{% block user_content %}
+
+<div class="card text-center">
+    <div class="card-header">
+        <ul class="nav nav-pills card-header-pills">
+            <li class="nav-item">
+                <a class="nav-link " href="{% url 'accounts:profile' username=this_user.username %}">发帖</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="{% url 'accounts:fans' username=this_user.username %}">他的粉丝</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'accounts:following' username=this_user.username %}">他的关注</a>
+            </li>
+        </ul>
+    </div>
+    <div class="card-body">
+
+        {% for fan in this_user.followed_by.all %}
+        <div class="card">
+            <h3 class="card-header">{{  fan.username }}</h3>
+
+            {% comment %} <div class="card-body">
+                <h5 class="card-title">{{  post.title }}</h5>
+                <p class="card-text"> {{ post.message }} </p>
+                <a href="{% url 'posts:delete' pk=post.pk %}" title="delete" class="btn btn-simple">
+                    <span class="fa fa-remove text-danger" aria-hidden="true"></span>
+                    <span class="text-danger icon-label">删除</span>
+                </a>
+            </div> {% endcomment %}
+
+        </div>
+
+    {% comment %} {% for fan in this_user.friends.all %}
+
+        <div class="card">
+            <h3 class="card-header">{{  fan.username}}</h3>
+            <div class="card-body">
+                <h5 class="card-title">{{  comment.title }}</h5>
+                
+                <p class="card-text"> {{ comment.content}} </p>
+                <a href="#" class="btn btn-primary">Go somewhere</a> 
+            
+            </div>
+        </div>
+
+
+        {% endfor %} {% endcomment %}
+
+        {% endfor %}
+
+
+    </div>
+
+
+</div>
+
+{% endblock user_content %}

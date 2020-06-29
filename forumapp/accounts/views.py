@@ -62,4 +62,37 @@ def unfollows_him(request, pk):
     request.user.friends.remove(him)
 
     return redirect(him)
-    
+
+def UserFans(request, username):
+    # user = User.objects.filter(username=username)
+    post_user = User.objects.prefetch_related("posts").get(username__iexact=username)
+    posts = post_user.posts.all()
+    comments = post_user.comments.all()
+    my_friends = request.user.friends.all()
+    # his_friends = Friend.objects.get(current_user = post_user).users.all()
+    context = {
+        'posts' : posts,
+        'comments' : comments,
+        'this_user' : post_user,
+        'my_friends' : my_friends,
+        # 'his_friends' : his_friends,
+
+    }
+    return render(request, "accounts/user_fans.html", context)
+
+def UserFollows(request, username):
+    # user = User.objects.filter(username=username)
+    post_user = User.objects.prefetch_related("posts").get(username__iexact=username)
+    posts = post_user.posts.all()
+    comments = post_user.comments.all()
+    my_friends = request.user.friends.all()
+    # his_friends = Friend.objects.get(current_user = post_user).users.all()
+    context = {
+        'posts' : posts,
+        'comments' : comments,
+        'this_user' : post_user,
+        'my_friends' : my_friends,
+        # 'his_friends' : his_friends,
+
+    }
+    return render(request, "accounts/user_following.html", context)

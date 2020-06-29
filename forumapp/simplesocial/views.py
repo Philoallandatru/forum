@@ -14,4 +14,7 @@ class HomePage(TemplateView):
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
             return HttpResponseRedirect(reverse("test"))
+
+        followers = request.user.followered_by.all()
+        args['followers'] = followers
         return super().get(request, *args, **kwargs)
