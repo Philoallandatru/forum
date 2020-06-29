@@ -25,8 +25,7 @@
 			<ul class="list-unstyled">
 				{# {% get_other_groups as other_groups %} #}
 				{% for other_group in get_other_groups %}
-				<li class="group li-with-bullet"><a
-						href="{% url 'groups:single' slug=other_group.slug %}">{{ other_group.name }}</a></li>
+					<li class="group li-with-bullet"><a href="{% url 'groups:single' slug=other_group.slug %}">{{ other_group.name }}</a></li>
 				{% endfor %}
 			</ul>
 
@@ -36,61 +35,8 @@
 {% endblock %}
 {% block post_content %}
 <div class="col-md-8">
-
-	<div class="list-group">
-		{% for post in post_list %}
-
-		{# group detail page link #}
-		<a href="{% url 'post:single' username=post.user.username pk=post.pk %}"
-			class="list-group-item list-group-item-action flex-column align-items-start">
-
-			{% comment %} <h3 class="mb-1">{{ group. }}</h3>
-			<p class="mb-1">{{ group.description_html|safe }}</p>
-
-			<div class="d-flex w-40 justify-content-between">
-				<small class="text-muted"><span class="badge badge-secondary">
-						{{ group.members.count }}</span> member{{ group.members.count|pluralize }}</small>
-				<small class="text-muted"><span class="badge badge-secondary">
-						{{ group.posts.count }}</span> post{{ group.posts.count|pluralize }}</small>
-				<span></span><span></span>
-			</div> {% endcomment %}
-
-			<div class="media">
-				<h3 class="mr-5"><a
-						href="{% url 'accounts:profile' username=post.user.username %}">@{{ post.user.username }}</a>
-				</h3>
-
-				<div class="media-body">
-					<h5>{{ post.message_html|safe }}</h5>
-					<time class="time"><a
-							href="{% url 'posts:single' username=post.user.username pk=post.pk %}">{{ post.created_at }}</a></time>
-
-					{% if post.group %}
-					<span class="group-name">in <a href="#">{{ post.group.name }}</a></span>
-					{% endif %}
-
-
-					<div class="media-footer">
-						{% if user.is_authenticated and post.user == user and not hide_delete %}
-						<a href="{% url 'posts:delete' pk=post.pk %}" title="delete" class="btn btn-simple">
-							<span class="fa fa-remove text-danger" aria-hidden="true"></span>
-							<span class="text-danger icon-label">删除</span>
-						</a>
-						{% endif %}
-					</div>
-				</div>
-			</div>
-
-		</a>
-
-		{% endfor %}
-	</div>
-
-
-
-
-	{% comment %} {% for post in post_list %}
-	{% include "posts/_post.html" %}
-	{% endfor %} {% endcomment %}
+	{% for post in post_list %}
+  {% include "posts/_post.html" %}
+	{% endfor %}
 </div>
 {% endblock %}

@@ -50,15 +50,21 @@
         </nav>
 
 
-
+        {% comment %} avaltar and username {% endcomment %}
         <h1 class="topic-title">{{ post.title }}</h1>
         <div class="topic-meta row">
+
             <div class="col-xs-2 col-sm-1">
                 <img class="user-avatar" src="{% static  'img/4.jpg' %}" alt="" />
             </div>
+
             <div class="col-xs-9 col-sm-10">
                 <p class="text-muted">
-                    <a href="/u/1/">{{ post.user.username }}</a>
+                    <a href="{% url 'accounts:profile' username=post.user.username %}">{{ post.user.username }}</a>
+
+{% comment %} like button {% endcomment %}
+        <a href="{% url 'posts:likes_toggle' pk=post.id %}" class="btn btn-xs btn-warning float-right"><span class="glyphicon glyphicon-heart"></span> {{ post.likes.count }}</a>
+
                     <br />
                     <span>发表于{{ post.created_at }} 主题：<a class="text-primary"
                             href="{% url 'groups:single' slug=post.group.slug %}">{{ post.group.name }}
@@ -72,6 +78,7 @@
             {{ post.message|safe }}
 
         </div>
+
     </div>
 </div>
 
@@ -170,7 +177,7 @@
 
 
                 <div class="form-group">
-                    <div class="controls "> <input type="submit" name="submit" value="Submit" class="btn btn-primary"
+                    <div class="controls "> <input type="submit" name="submit" value="发表" class="btn btn-primary"
                             id="submit-id-submit" /> </div>
                 </div>
             {% comment %} </form> {% endcomment %}

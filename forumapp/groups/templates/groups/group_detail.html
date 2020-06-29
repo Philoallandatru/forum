@@ -1,52 +1,84 @@
-  {% extends "groups/group_base.html" %}
+{% extends "groups/group_base.html" %}
 
 {% block pregroup %}
 <div class="container">
-  <h2 class="display-3">{{group.name}}</h2>
-    <div class="row">
-      <div class="col-md-4">
-        <div class="alert alert-primary">
-            讨论组成员数量：{{group.members.count}}
-        </div>
-      </div>
-      <div class="content col-md-4">
-        {% if user in group.members.all %}
+	<h2 class="display-3">{{group.name}}</h2>
+	<div class="row">
+		<div class="col-md-4">
+			<div class="alert alert-primary">
+				讨论组成员数量：{{group.members.count}}
+			</div>
+		</div>
+		<div class="content col-md-4">
+			{% if user in group.members.all %}
 
-          <a href="{% url 'groups:leave' slug=group.slug %}" class="btn btn-lg btn-warning">
-          <span class="fa fa-times-circle-o">
-          </span> 退出
-          </a>
+			<a href="{% url 'groups:leave' slug=group.slug %}" class="btn btn-lg btn-warning">
+				<span class="fa fa-times-circle-o">
+				</span> 退出
+			</a>
 
-        {% else %}
-          <a href="{% url 'groups:join' slug=group.slug %}" class="btn btn-lg btn-warning">
-          <span class="fa fa-check-circle-o">
-          </span> 加入
-          </a>
-        {% endif %}
-      </div>
-      <div class="col-md-4">
-          <a href="{% url 'posts:create' %}" class="btn btn-lg btn-secondary ">发帖</a>
-      </div>
-    </div>
+			{% else %}
+			<a href="{% url 'groups:join' slug=group.slug %}" class="btn btn-lg btn-warning">
+				<span class="fa fa-check-circle-o">
+				</span> 加入
+			</a>
+			{% endif %}
+		</div>
+		<div class="col-md-4">
+			<a href="{% url 'posts:create' %}" class="btn btn-lg btn-secondary ">发帖</a>
+		</div>
+	</div>
 
 </div>
 {% endblock %}
 
 <div class="container">
-  {% block group_content %}
-  <div class="col-md-8">
-  	{% if group.posts.count == 0 %}
-    <div class="alert alert-info">
-        这个讨论组目前还没有帖子。
-    </div>
+	{% block group_content %}
+	<div class="col-md-8">
+		{% if group.posts.count == 0 %}
+		<div class="alert alert-info">
+			这个讨论组目前还没有帖子。
+		</div>
 
-  	{% else %}
+		{% else %}
 
-  		{% for post in group.posts.all %}
-  			{% include "posts/_post.html" %}
-  		{% endfor %}
+		{% for post in group.posts.all %}
 
-  	{% endif %}
-  </div>
-  {% endblock %}
+
+		<div class="card border-light mb-3 m-3">
+
+			<div class="card-header bg-transparent border-info">
+				<a href="{% url 'accounts:profile' username=post.user.username %}">@{{ post.user.username }}</a>
+			</div>
+			<div class="card-body text-dark">
+				<h5 class="card-title">{{ post.message_html|safe }}</h5>
+
+			</div>
+
+			<div class="card-footer bg-transparent border-info media-footer">
+				<time class="time"><a href="{% url 'posts:single' username=post.user.username pk=post.pk %}">{{ post.created_at }}</a></time>
+				{% if post.group %}
+				<span class="group-name">in <a href="#">{{ post.group.name }}</a></span>
+				{% endif %}
+				
+				{% if user.is_authenticated and post.user == user and not hide_delete %}
+				<a href="{% url 'posts:delete' pk=post.pk %}" title="delete" class="btn btn-simple">
+					<span class="fa fa-remove text-danger" aria-hidden="true"></span>
+					<span class="text-danger icon-label">删除</span>
+				</a>
+				{% endif %}
+			</div>
+		</div>
+
+
+
+		<!-- {% include "posts/_post.html" %} -->
+
+
+
+		{% endfor %}
+
+		{% endif %}
+	</div>
+	{% endblock %}
 </div>

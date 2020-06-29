@@ -3,6 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.http import Http404
 from django.views import generic
+from django.shortcuts import get_object_or_404,redirect
 
 # pip install django-braces
 from braces.views import SelectRelatedMixin
@@ -37,6 +38,7 @@ class UserPosts(generic.ListView):
         else:
             return self.post_user.posts.all()
 
+    # get current user in context data
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["post_user"] = self.post_user
@@ -58,8 +60,14 @@ class PostDetail(SelectRelatedMixin, generic.DetailView):
 
 class CreatePost(LoginRequiredMixin, SelectRelatedMixin, generic.CreateView):
     # form_class = forms.PostForm
-    fields = ('message','group')
+    fields = ('title', 'message','group')
     model = models.Post
+
+    class Meta:
+        help_texts = {
+            'title' : ('帖子主题'),
+            'message' : ('帖子内容'),
+        }
 
     # def get_form_kwargs(self):
     #     kwargs = super().get_form_kwargs()
@@ -85,3 +93,14 @@ class DeletePost(LoginRequiredMixin, SelectRelatedMixin, generic.DeleteView):
     def delete(self, *args, **kwargs):
         messages.success(self.request, "Post Deleted")
         return super().delete(*args, **kwargs)
+
+def LikesToggle(request, pk):
+    post = get_object_or_404(models.Post, pk=pk)
+    user = request.user
+    url_ = post.get_absolute_url()
+    if user in post.likes.all():
+        post.likes.remove(user)
+    else:
+        post.likes.add(user)
+
+    return redirect(url_)

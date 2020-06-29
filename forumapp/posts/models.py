@@ -10,11 +10,12 @@ from accounts.models import User
 
 
 class Post(models.Model):
-    title = models.CharField(max_length=200, blank=True, null=True)
+    title = models.CharField(max_length=200, blank=True )
     user = models.ForeignKey(User, related_name="posts",on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now=True)
     message = models.TextField()
     message_html = models.TextField(editable=False)
+    likes = models.ManyToManyField(User, blank=True, related_name="post_likes")
 
     # notes for related name: therefore you can use group.posts to reference all the posts in the group
     group = models.ForeignKey(
@@ -37,6 +38,9 @@ class Post(models.Model):
                 "pk": self.pk
             }
         )
+    
+    def get_like_url(self):
+        return reverse("posts:likes_toggle", kwargs={"pk" : self.id})
 
     class Meta:
         ordering = ["-created_at"]
