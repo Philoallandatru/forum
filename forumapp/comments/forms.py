@@ -20,6 +20,7 @@ class CommentForm(forms.ModelForm):
 
 
 class  CommentPostForm(forms.Form):
-    content = forms.CharField(max_length=100)
+    parent_id = forms.IntegerField(widget=forms.HiddenInput, required=False)
+    content = forms.CharField(max_length=100, widget=forms.Textarea)
 
 

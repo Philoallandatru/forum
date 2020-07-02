@@ -52,6 +52,7 @@
 
         {% comment %} avaltar and username {% endcomment %}
         <h1 class="topic-title">{{ post.title }}</h1>
+
         <div class="topic-meta row">
 
             <div class="col-xs-2 col-sm-1">
@@ -62,8 +63,9 @@
                 <p class="text-muted">
                     <a href="{% url 'accounts:profile' username=post.user.username %}">{{ post.user.username }}</a>
 
-{% comment %} like button {% endcomment %}
-        <a href="{% url 'posts:likes_toggle' pk=post.id %}" class="btn btn-xs btn-warning float-right"><span class="glyphicon glyphicon-heart"></span> {{ post.likes.count }}</a>
+                    {% comment %} like button {% endcomment %}
+                    <a href="{% url 'posts:likes_toggle' pk=post.id %}" class="btn btn-xs btn-warning float-right"><span
+                            class="glyphicon glyphicon-heart"></span> {{ post.likes.count }}</a>
 
                     <br />
                     <span>发表于{{ post.created_at }} 主题：<a class="text-primary"
@@ -116,7 +118,27 @@
                 <p></p>
             </div>
             <p class="reply-link">
-                <a href="#" data-username="gladuo" class="reply-to">回复</a>
+
+                {% if user.is_authenticated %}
+            <form action="{% url 'comments:commentToComment'  pk=post.id username=user.username parent=comment.id %}" method="POST">
+
+
+
+                {% csrf_token %}
+
+                <div class="input-group mb-3">
+                    <input id="content" name="content" type="text" class="form-control" placeholder="评论内容" aria-label="Recipient's username" aria-describedby="button-addon2">
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-secondary" type="submit" id="button-addon2">回复</button>
+                    </div>
+                </div>
+                  
+            
+            
+            </form>
+
+
+               {% endif %} 
             </p>
 
         </li>
@@ -132,57 +154,40 @@
 
 {% comment %} leave a comment {% endcomment %}
 
- <div class="panel panel-default">
+<div class="panel panel-default">
 
     <div class="panel-heading">留下一个评论</div>
 
     <div class="panel-body">
 
 
+        {% comment %} create a comment here {% endcomment %}
+
+
+
         {% if user.is_authenticated %}
         <form action="{% url 'comments:postComment'  pk=post.id username=user.username %}" method="POST">
 
-            {% comment %} <form method="post"> {% endcomment %}
 
-                {% csrf_token %}
-                {% comment %} <link href="{% static  'editor/demo.css' %}" type="text/css" media="all" rel="stylesheet" />
 
-                <link href="{% static  'editor/editor1.css' %}" type="text/css" media="all" rel="stylesheet" />
-                <script type="text/javascript" src="{% static  'editor/Markdown.Converter.js' %}"></script>
-                <script type="text/javascript" src="{% static  'editor/Markdown.Converter1.js' %}"></script>
-                <script type="text/javascript" src="{% static  'editor/Markdown.Sanitizer.js' %}"></script>
-                <script type="text/javascript" src="{% static   'editor/Markdown.Editor.js' %}"></script>
-                <script type="text/javascript" src="{% static  'editor/Markdown.Extra.js' %}"></script>
-                <script type="text/javascript" src="{% static  'editor/pagedown_init.js' %}"></script>
-                 {% endcomment %}
-                
-                {% comment %} <div id="div_id_content_raw" class="form-group">
-                    <div class="controls ">
-                        <div class="wmd-wrapper" id="id_content_raw-wmd-wrapper">
-                            <div class="wmd-panel">
-                                <div id="id_content_raw_wmd_button_bar"></div> {{ forms.content }}
-                            </div>
-                            <p class="wmd-preview-title"><small>Preview:</small></p>
-                            <div id="id_content_raw_wmd_preview" class="wmd-panel wmd-preview"></div>
-                        </div>
-                    </div>
-                </div> {% endcomment %}
-                
-                <div class="form-group">
-                    <div class="controls "> 
-                     <label for="content">评论内容</label>
-    <input id="content" type="text" name="content" />
-                    </div>
+            {% csrf_token %}
+
+
+            <div class="form-group">
+                <div class="controls ">
+                    <label for="content">评论内容</label>
+                    <input id="content" type="text" name="content" />
                 </div>
+            </div>
 
 
-                <div class="form-group">
-                    <div class="controls "> <input type="submit" name="submit" value="发表" class="btn btn-primary"
-                            id="submit-id-submit" /> </div>
-                </div>
-            {% comment %} </form> {% endcomment %}
-
+            <div class="form-group">
+                <div class="controls "> <input type="submit" name="submit" value="发表" class="btn btn-primary"
+                        id="submit-id-submit" /> </div>
+            </div>
         </form>
+
+
 
         {% else %}
 
@@ -194,7 +199,7 @@
         {% endif %}
 
 
-    </div>   
+    </div>
 
 </div>
 
@@ -235,7 +240,7 @@
     </div>
     {% endif %}
 </div>
-</div>  {% endcomment %}
+</div> {% endcomment %}
 
 
 {% endblock %}

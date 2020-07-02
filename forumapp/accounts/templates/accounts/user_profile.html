@@ -135,13 +135,6 @@
 
             {% endif %}
 
-            {% if this_user.id == user.id %}
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'accounts:edit_profile' username=user.username %}">个人资料</a>
-            </li>
-
-            {% endif %}
-
         </ul>
     </div>
     <div class="card-body">

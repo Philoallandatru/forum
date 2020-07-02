@@ -1,22 +1,24 @@
-<div class="media">
-	<h3 class="mr-5"><a href="{% url 'accounts:profile' username=post.user.username %}">@{{ post.user.username }}</a></h3>
+		<div class="card border-light mb-3 m-3">
 
-	<div class="media-body">
-		<h5>{{ post.message_html|safe }}</h5>
-			<time class="time"><a href="{% url 'posts:single' username=post.user.username pk=post.pk %}">{{ post.created_at }}</a></time>
+			<div class="card-header bg-transparent border-info">
+				<a href="{% url 'accounts:profile' username=post.user.username %}">@{{ post.user.username }}</a>
+			</div>
+			<div class="card-body text-dark">
+				<h5 class="card-title">{{ post.message_html|safe }}</h5>
 
-			{% if post.group %}
-			<span class="group-name">in <a href="#">{{ post.group.name }}</a></span>
-			{% endif %}
+			</div>
 
-
-		<div class="media-footer">
-			{% if user.is_authenticated and post.user == user and not hide_delete %}
+			<div class="card-footer bg-transparent border-info media-footer">
+				<time class="time"><a href="{% url 'posts:single' username=post.user.username pk=post.pk %}">{{ post.created_at }}</a></time>
+				{% if post.group %}
+				<span class="group-name">in <a href="#">{{ post.group.name }}</a></span>
+				{% endif %}
+				
+				{% if user.is_authenticated and post.user == user and not hide_delete or user.is_superuser %}
 				<a href="{% url 'posts:delete' pk=post.pk %}" title="delete" class="btn btn-simple">
 					<span class="fa fa-remove text-danger" aria-hidden="true"></span>
 					<span class="text-danger icon-label">删除</span>
 				</a>
-			{% endif %}
+				{% endif %}
+			</div>
 		</div>
-	</div>
-</div>

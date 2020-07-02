@@ -10,17 +10,18 @@ from accounts.models import User
 
 
 class Post(models.Model):
-    title = models.CharField(max_length=200, blank=True )
+    title = models.CharField(max_length=200, blank=True, verbose_name="标题")
     user = models.ForeignKey(User, related_name="posts",on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now=True)
-    message = models.TextField()
+    message = models.TextField(verbose_name="帖子内容")
     message_html = models.TextField(editable=False)
     likes = models.ManyToManyField(User, blank=True, related_name="post_likes")
 
     # notes for related name: therefore you can use group.posts to reference all the posts in the group
     group = models.ForeignKey(
         Group, related_name="posts",null=True, 
-        blank=True,on_delete=models.CASCADE
+        blank=True,on_delete=models.CASCADE,
+        verbose_name="所属板块"
     )
 
     def __str__(self):

@@ -32,3 +32,15 @@ class Comment(models.Model):
     def get_absolute_url(self):
         return reverse("comments:comment_detail", kwargs={"pk": self.pk})
 
+    # replies
+    def children(self):
+        return Comment.objects.filter(parent=self)
+
+    @property
+    def is_parent(self):
+        if self.parent_comment is not None:
+            return False
+        return True
+
+    class Meta:
+        ordering = ['-date']

@@ -7,7 +7,7 @@
 <div class="container">
 
   <div class="col-md-8">
-    <h4>创建一个新的VN讨论组：</h4>
+    <h4>创建新的板块：</h4>
     <form method="POST" action="{% url 'groups:create' %}" id="groupForm">
       {% csrf_token %}
       {% bootstrap_form form %}

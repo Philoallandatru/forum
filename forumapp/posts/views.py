@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 
 # pip install django-braces
 from braces.views import SelectRelatedMixin
+from comments.forms import CommentPostForm
 
 from . import forms
 from . import models
@@ -52,6 +53,16 @@ class PostDetail(SelectRelatedMixin, generic.DetailView):
     select_related = ("user", "group")
 
 
+    def get_context_data(self, *args, **kwargs):
+        context = super(PostDetail, self).get_context_data(*args, **kwargs)
+        comment_form = CommentPostForm(self.request.POST or None)
+        if comment_form.is_valid():
+            print(comment_form.cleaned_data)
+        context['comment_form'] = comment_form
+
+        return context
+
+
     # the id of the post is known, so next set restraint on the username
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -64,13 +75,7 @@ class CreatePost(LoginRequiredMixin, SelectRelatedMixin, generic.CreateView):
     # form_class = forms.PostForm
     fields = ('title', 'message','group')
     model = models.Post
-
-    class Meta:
-        help_texts = {
-            'title' : ('帖子主题'),
-            'message' : ('帖子内容'),
-        }
-
+    
     # def get_form_kwargs(self):
     #     kwargs = super().get_form_kwargs()
     #     kwargs.update({"user": self.request.user})
@@ -93,7 +98,7 @@ class DeletePost(LoginRequiredMixin, SelectRelatedMixin, generic.DeleteView):
         return queryset.filter(user_id=self.request.user.id)
 
     def delete(self, *args, **kwargs):
-        messages.success(self.request, "Post Deleted")
+        messages.success(self.request, "帖子已删除")
         return super().delete(*args, **kwargs)
 
 def LikesToggle(request, pk):
@@ -106,4 +111,3 @@ def LikesToggle(request, pk):
         post.likes.add(user)
 
     return redirect(url_)
-

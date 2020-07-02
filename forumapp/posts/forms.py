@@ -7,8 +7,11 @@ class PostForm(forms.ModelForm):
         fields = ("message", "group")
         model = models.Post
 
+
     def __init__(self, *args, **kwargs):
         user = kwargs.pop("user", None)
+        self.fields['message'].label = "发帖内容"
+        self.fileds["group"].label = "板块"
         super().__init__(*args, **kwargs)
         if user is not None:
 

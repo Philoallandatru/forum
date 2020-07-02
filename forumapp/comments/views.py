@@ -63,7 +63,12 @@ class  CommentPostCreate(View):
     #     form = CommentPostForm()
     #     return render(request, 'posts/post_detail.html', {'form' : form})
 
+
     def post(self,request,pk,username):
+        """
+        pk: post pk
+        
+        """
         post = Post.objects.get(id=pk)
         comment_content = request.POST.get('content')
         comment = Comment()
@@ -74,4 +79,19 @@ class  CommentPostCreate(View):
         return redirect(post.get_absolute_url())
         # return  reverse(post.get_absolute_url())
 
+class CommentToComment(View):
 
+    def post(self,request,pk,username, parent):
+        """
+        pk: post pk
+        
+        """
+        post = Post.objects.get(id=pk)
+        comment_content = request.POST.get('content')
+        comment = Comment()
+        comment.parent_comment = Comment.objects.get(pk=parent)
+        comment.post = post
+        comment.user = User.objects.get(username=username)
+        comment.content=comment_content
+        comment.save()
+        return redirect(post.get_absolute_url())

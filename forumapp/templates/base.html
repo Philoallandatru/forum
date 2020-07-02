@@ -44,6 +44,7 @@
 			{% if user.is_superuser %}
 
 			<a class="nav-item nav-link" href="{% url 'groups:create' %}" class="btn btn-simple">创建板块</a>
+			<a class="nav-item nav-link" href="/mysterious/" class="btn btn-simple">管理员界面</a>
 
 			{% endif %}
 
@@ -304,8 +305,10 @@
 		integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
 		crossorigin="anonymous"></script> {% endcomment %}
 
-	<script src="{% static  'jquery-2.2.4.min.js' %}"></script>
-	<script src="{% static  'bootstrap.min.js' %}"></script>
+	<script src="{% static  'js/jquery-2.2.4.min.js' %}"></script>
+	<script src="{% static  'js/bootstrap.min.js' %}"></script>
+
+	</script>
 </body>
 
 </html>
